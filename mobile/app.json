@@ -1,9 +1,9 @@
 {
-  "name": "mobile",
-  "displayName": "mobile",
+  "name": "sail-mobile",
+  "displayName": "Sail",
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "sail",
+    "slug": "sail",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
