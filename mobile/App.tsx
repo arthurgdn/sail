@@ -24,5 +24,5 @@ export default function App(){
   useEffect(()=>{
     getAuth()
   },[])
-  return (<AuthContext.Provider value={{ auth }}><AppRouter/></AuthContext.Provider> )
+  return (<AuthContext.Provider value={{ auth, setAuth }}><AppRouter/></AuthContext.Provider> )
 }

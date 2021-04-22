@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction } from 'react';
 import { AuthData } from '../interfaces/user.interface';
 
-export default createContext<{auth : AuthData}>({ auth: { isAuthenticated: false, user: null }})
+export default createContext<{auth : AuthData, setAuth: Dispatch<SetStateAction<AuthData>>}>({ auth: { isAuthenticated: false, user: null }, setAuth: () => {}})
