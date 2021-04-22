@@ -14,7 +14,13 @@ export default () => {
     const [password, setPassword] = useState<string>('');
 
     const handleSignin = async () => {
-        const response = signin(tag,password,setAuth);
+        const response = await signin(tag,password,setAuth);
+        if(response.status!==200){
+            console.log(response.message)
+        }else{
+            console.log('trace bug')
+            navigation.navigate('conversations')
+        }
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent } from 'react'
+import React, { useContext, FunctionComponent, useEffect } from 'react'
 import { StackNavigationProp } from '@react-navigation/stack';
 import {View,StyleSheet} from 'react-native'
 
@@ -12,7 +12,6 @@ interface PrivateRouteProps {
 
 const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ navigation, component:Component, ...rest}: PrivateRouteProps)=>{
     const  { auth } = useContext(AuthContext);
-    
     if(!auth.isAuthenticated){
         navigation.navigate('signin')
     }

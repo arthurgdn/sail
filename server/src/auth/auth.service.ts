@@ -71,7 +71,7 @@ export class AuthService {
     const today = new Date();
     const exp = new Date(today);
     exp.setDate(today.getDate() + 60);
-
+    console.log(process.env, process.env.JWT_SECRET);
     return jwt.sign(
       {
         id: user._id,

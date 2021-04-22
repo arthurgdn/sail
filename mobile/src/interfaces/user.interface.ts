@@ -1,7 +1,7 @@
 export interface User{
-    _id: number;
     tag: string;
     username: string;
+    token: string;
 }
 
 export interface AuthData {
