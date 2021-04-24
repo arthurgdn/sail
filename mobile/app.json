@@ -1,12 +1,10 @@
 {
-  "name": "sail-mobile",
-  "displayName": "Sail",
-  "expo": {
-    "name": "sail",
-    "slug": "sail",
-    "version": "0.0.1",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  }
+    "name": "sail-mobile",
+    "displayName": "Sail",
+    "expo": {
+        "name": "sail",
+        "slug": "sail",
+        "version": "0.0.1",
+        "assetBundlePatterns": ["**/*"]
+    }
 }
