@@ -58,7 +58,8 @@ export class AuthService {
         HttpStatus.BAD_REQUEST,
       );
     } else {
-      return await user.save();
+      await user.save();
+      return user;
     }
   }
 
