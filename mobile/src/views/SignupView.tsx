@@ -7,49 +7,48 @@ import TextInput from '../components/TextInput';
 
 export default () => {
     const navigation = useNavigation();
-    const [username, setUsername]=useState('')
-    const [tag, setTag]=useState('')
-    const [password, setPassword]=useState('')
-    const [verifyPassword, setVerifyPassword]=useState('')
-    
-    const handleSignup = ()=> {
+    const [username, setUsername] = useState('');
+    const [tag, setTag] = useState('');
+    const [password, setPassword] = useState('');
+    const [verifyPassword, setVerifyPassword] = useState('');
 
-    }
+    const handleSignup = () => {};
     return (
         <View>
             <Text>Join Sail Now !</Text>
             <Form>
-
-            <TextInput
+                <TextInput
                     value={username}
                     blurOnSubmit
                     placeholder="Your name"
-                    onChangeText={(value)=>setUsername(value)}
+                    onChangeText={(value) => setUsername(value)}
                 />
-            <TextInput
+                <TextInput
                     value={tag}
                     blurOnSubmit
                     placeholder="Your Sail Tag"
-                    onChangeText={(value)=>setTag(value)}
+                    onChangeText={(value) => setTag(value)}
                 />
-             <TextInput
+                <TextInput
                     value={password}
                     blurOnSubmit
                     placeholder="Password"
-                    secureTextEntry={true}
-                    onChangeText={(value)=>setPassword(value)}
+                    secureTextEntry
+                    onChangeText={(value) => setPassword(value)}
                 />
-            <TextInput
+                <TextInput
                     value={verifyPassword}
                     blurOnSubmit
                     placeholder="Verify your password"
-                    secureTextEntry={true}
-                    onChangeText={(value)=>setVerifyPassword(value)}
+                    secureTextEntry
+                    onChangeText={(value) => setVerifyPassword(value)}
                 />
-            <BigButton title={"Sign up" } onPressHandler={handleSignup} />
+                <BigButton title="Sign up" onPressHandler={handleSignup} />
             </Form>
-            <Button title="I already have an account" onPress={()=>navigation.navigate('signin')} />
-
+            <Button
+                title="I already have an account"
+                onPress={() => navigation.navigate('signin')}
+            />
         </View>
-    )
-}
+    );
+};

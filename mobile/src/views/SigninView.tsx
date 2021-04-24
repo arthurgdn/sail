@@ -10,40 +10,41 @@ import { signin } from '../services/auth.service';
 export default () => {
     const navigation = useNavigation();
     const [tag, setTag] = useState<string>('');
-    const {setAuth} = useContext(authContext);
+    const { setAuth } = useContext(authContext);
     const [password, setPassword] = useState<string>('');
 
     const handleSignin = async () => {
-        const response = await signin(tag,password,setAuth);
-        if(response.status!==200){
-            console.log(response.message)
-        }else{
-            console.log('trace bug')
-            navigation.navigate('conversations')
+        const response = await signin(tag, password, setAuth);
+        if (response.status !== 200) {
+            console.log(response.message);
+        } else {
+            navigation.navigate('conversations');
         }
-    }
+    };
 
     return (
         <View>
             <Text>Log in to sail !</Text>
             <Form>
-            <TextInput
+                <TextInput
                     value={tag}
                     blurOnSubmit
                     placeholder="Your Sail Tag"
-                    onChangeText={(value)=>setTag(value)}
+                    onChangeText={(value) => setTag(value)}
                 />
-             <TextInput
+                <TextInput
                     value={password}
                     blurOnSubmit
                     placeholder="Password"
                     secureTextEntry={true}
-                    onChangeText={(value)=>setPassword(value)}
+                    onChangeText={(value) => setPassword(value)}
                 />
-            <BigButton title={"Sign In" } onPressHandler={handleSignin} />
+                <BigButton title={'Sign In'} onPressHandler={handleSignin} />
             </Form>
-            <Button title="I don't have an account" onPress={()=>navigation.navigate('signup')} />
-
+            <Button
+                title="I don't have an account"
+                onPress={() => navigation.navigate('signup')}
+            />
         </View>
-    )
-}
+    );
+};

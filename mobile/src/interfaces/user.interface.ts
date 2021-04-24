@@ -1,10 +1,10 @@
-export interface User{
+export interface User {
     tag: string;
     username: string;
     token: string;
 }
 
 export interface AuthData {
-    isAuthenticated : boolean;
+    isAuthenticated: boolean;
     user: User | null;
-  }
+}
