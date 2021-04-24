@@ -36,10 +36,10 @@ export default () => {
                     value={password}
                     blurOnSubmit
                     placeholder="Password"
-                    secureTextEntry={true}
+                    secureTextEntry
                     onChangeText={(value) => setPassword(value)}
                 />
-                <BigButton title={'Sign In'} onPressHandler={handleSignin} />
+                <BigButton title="Sign In" onPressHandler={handleSignin} />
             </Form>
             <Button
                 title="I don't have an account"
