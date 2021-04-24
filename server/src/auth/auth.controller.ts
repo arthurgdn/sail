@@ -24,7 +24,11 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @Post('')
   async create(@Body('user') userData: CreateUserDto) {
-    return this.authService.create(userData);
+    const _user = await this.authService.create(userData);
+    const token = await this.authService.generateJWT(_user);
+    const { tag, username } = _user;
+    const user = { tag, token, username };
+    return { user };
   }
 
   //User should be able to login

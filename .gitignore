@@ -1,0 +1,5 @@
+# Custom scripts
+*.bat
+
+# Expo
+.expo/*

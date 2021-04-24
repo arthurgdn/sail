@@ -4,19 +4,20 @@ import { Text, View, Button } from 'react-native';
 import Form from '../containers/Form';
 import TextInput from '../components/TextInput';
 import BigButton from '../components/BigButton';
-import authContext from '../contexts/auth.context';
+import AuthContext from '../contexts/auth.context';
 import { signin } from '../services/auth.service';
 
 export default () => {
     const navigation = useNavigation();
     const [tag, setTag] = useState<string>('');
-    const { setAuth } = useContext(authContext);
+    const { setAuth } = useContext(AuthContext);
     const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
 
     const handleSignin = async () => {
         const response = await signin(tag, password, setAuth);
         if (response.status !== 200) {
-            console.log(response.message);
+            setError(response.message);
         } else {
             navigation.navigate('conversations');
         }
@@ -41,6 +42,7 @@ export default () => {
                 />
                 <BigButton title="Sign In" onPressHandler={handleSignin} />
             </Form>
+            <Text>{error}</Text>
             <Button
                 title="I don't have an account"
                 onPress={() => navigation.navigate('signup')}
