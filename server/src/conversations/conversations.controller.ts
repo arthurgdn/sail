@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '../auth/user.decorator';
-import { User as UserModel } from '../auth/user.schema';
+import { User as UserModel, UserDocument } from '../auth/user.schema';
 import { NewConversationDto } from './conversations.dto';
 import { ConversationsService } from './conversations.service';
 
@@ -29,7 +29,7 @@ export class ConversationsController {
   }
 
   @Get('')
-  async getConversations(@User() user: UserModel) {
+  async getConversations(@User() user: UserDocument) {
     const _conversations = await this.conversationsService.getConversations(
       user,
     );
