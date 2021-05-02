@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as argon2 from 'argon2';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 import { Conversation } from '../conversations/conversations.schema';
 
 export type UserDocument = User & Document;
@@ -19,7 +19,7 @@ export class User {
   @Prop()
   username: string;
 
-  @Prop()
+  @Prop( {type: mongoose.Schema.Types.ObjectId, ref: 'Conversations' })
   conversations: Conversation[];
 
   @Prop()

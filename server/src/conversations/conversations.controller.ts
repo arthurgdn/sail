@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UsePipes,
   ValidationPipe,
@@ -23,10 +24,15 @@ export class ConversationsController {
     @User() user: UserModel,
     @Body('conversation') conversationData: NewConversationDto,
   ) {
-    const _conv = await this.conversationsService.create(
-      conversationData,
+    const _conv = await this.conversationsService.create(conversationData);
+    return { conversation: _conv };
+  }
+
+  @Get('')
+  async getConversations(@User() user: UserModel) {
+    const _conversations = await this.conversationsService.getConversations(
       user,
     );
-    return { conversation: _conv };
+    return { conversations: _conversations };
   }
 }

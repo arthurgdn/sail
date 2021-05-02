@@ -16,7 +16,7 @@ export class ConversationsService {
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
   ) {}
 
-  async create(dto: NewConversationDto, user: User): Promise<Conversation> {
+  async create(dto: NewConversationDto): Promise<Conversation> {
     // check if invited users exist
     const members: User[] = [];
     for (const member of dto.members) {
@@ -47,5 +47,9 @@ export class ConversationsService {
       await conversation.save();
       return conversation;
     }
+  }
+
+  async getConversations(user: User): Promise<Conversation[]> {
+    
   }
 }
