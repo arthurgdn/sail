@@ -1,28 +1,60 @@
+import { UseGuards } from '@nestjs/common';
 import {
-  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
 } from '@nestjs/websockets';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Server } from 'socket.io';
+import { AuthService } from 'src/auth/auth.service';
+import { WsJwtGuard } from 'src/common/ws.jwt.guard';
+import { MessagesService } from './messages.service';
 
 @WebSocketGateway()
 export class MessageGateway {
+  constructor(
+    private readonly messagesService: MessagesService,
+    private readonly authService: AuthService,
+  ) {}
+
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('join')
-  findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
-    return from([1, 2, 3]).pipe(
-      map((item) => ({ event: 'events', data: item })),
+  async handleConnection(socket) {
+    const user: User = await this.authService.verify(
+      socket.handshake.query.token,
+      true,
+    );
+
+    // Send list of connected users
+    this.server.emit('joined', user.username + ' joined !');
+  }
+
+  @UseGuards(WsJwtGuard)
+  @SubscribeMessage('message')
+  async onMessage(client, data: any) {
+    const event = 'message';
+
+    await this.messagesService.addMessage(data.user, data.message, data.room);
+    client.broadcast.to(data.room).emit(event, data.message);
+
+    return Observable.create((observer) =>
+      observer.next({ event, data: data.message }),
     );
   }
 
-  @SubscribeMessage('newMessage')
-  async identity(@MessageBody() data: number): Promise<number> {
-    return data;
+  @SubscribeMessage('join')
+  async onRoomJoin(client, data: any): Promise<any> {
+    client.join(data[0]);
+
+    const messages = await this.messagesService.findMessages(data, 25);
+
+    // Send last messages to the connected user
+    client.emit('message', messages);
+  }
+
+  @SubscribeMessage('leave')
+  onRoomLeave(client, data: any): void {
+    client.leave(data[0]);
   }
 }

@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import * as argon2 from 'argon2';
 import { CreateUserDto, LoginUserDto } from './user.dto';
 import { User, UserDocument } from './user.schema';
+import { WsException } from '@nestjs/websockets';
 
 @Injectable()
 export class AuthService {
@@ -82,5 +83,31 @@ export class AuthService {
       },
       process.env.JWT_SECRET,
     );
+  }
+
+  async verify(token: string, isWs = false): Promise<User | null> {
+    try {
+      const payload = <any>jwt.verify(token, process.env.JWT_SECRET);
+      const user = await this.findById(payload.id);
+
+      if (!user) {
+        if (isWs) {
+          throw new WsException('Unauthorized access');
+        } else {
+          throw new HttpException(
+            'Unauthorized access',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      }
+
+      return user;
+    } catch (err) {
+      if (isWs) {
+        throw new WsException(err.message);
+      } else {
+        throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+      }
+    }
   }
 }
