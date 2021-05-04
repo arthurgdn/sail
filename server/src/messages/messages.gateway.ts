@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { Server } from 'socket.io';
 import { AuthService } from 'src/auth/auth.service';
+import { User } from 'src/auth/user.schema';
 import { WsJwtGuard } from 'src/common/ws.jwt.guard';
 import { MessagesService } from './messages.service';
 
@@ -42,12 +43,16 @@ export class MessageGateway {
       observer.next({ event, data: data.message }),
     );
   }
-
+  @UseGuards(WsJwtGuard)
   @SubscribeMessage('join')
   async onRoomJoin(client, data: any): Promise<any> {
-    client.join(data[0]);
+    client.join(data.room);
 
-    const messages = await this.messagesService.findMessages(data, 25);
+    const messages = await this.messagesService.findMessages(
+      data.user,
+      data.room,
+      25,
+    );
 
     // Send last messages to the connected user
     client.emit('message', messages);
@@ -55,6 +60,6 @@ export class MessageGateway {
 
   @SubscribeMessage('leave')
   onRoomLeave(client, data: any): void {
-    client.leave(data[0]);
+    client.leave(data.room);
   }
 }
