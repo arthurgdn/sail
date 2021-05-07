@@ -39,4 +39,23 @@ export class MessagesService {
       return _message;
     }
   }
+
+  async findMessages(user: User, room: string, limit: number){
+    const conversation = await this.conversationModel.findById(room);
+    if(!conversation){
+      throw new WsException('Conversation not found')
+    }
+    if(!conversation.members.find((member)=>member.tag === user.tag)){
+      throw new WsException('You are not in conversation')
+    }
+    conversation.populate({
+      path: 'messages',
+      options : {
+        limit : limit,
+        sort:{createdAt: 1}
+        }
+      })
+      .execPopulate();
+    return conversation.messages;
+  }
 }
